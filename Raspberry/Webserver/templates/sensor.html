@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Details</title>
+    <style>
+        body {
+            background-image: url(https://wallpaperaccess.com/full/803470.jpg);
+            height: 100%;
+            background-repeat: no-repeat;
+        }
+
+        .marja {
+            display: flex;
+        }
+
+        .kol {
+            text-align: center;
+            margin-left: 10%;
+            margin-top: 8%;
+        }
+
+        table,
+        th {
+            border: 1px solid rgba(245, 245, 245, 0.5);
+        }
+
+        table {
+            background-color: rgba(135, 255, 251, 0.2);
+            font-size: 1.5625rem;
+            color: white;
+            width: 600px;
+            height: 300px;
+            border-collapse: collapse;
+        }
+
+        .Marja {
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bolder;
+            color: rgb(50, 50, 50);
+        }
+
+        .satr {
+            font-size: 1.375rem;
+            font-weight: lighter;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, Helvetica, sans-serif;
+        }
+
+        .text_asli {
+            color: rgba(0, 0, 0, 0.65);
+        }
+
+        p {
+            font-weight: 500;
+            font-size: 17.5px;
+        }
+
+        input {
+            padding: 0.3rem 0rem 0.3rem 0.5rem;
+            height: 1rem;
+            width: 5rem;
+            background-color: rgba(0, 0, 0, 0);
+            border: 0.1875rem solid white;
+            border-radius: 20rem;
+            color: white;
+            outline: 0px solid rgba(0, 0, 0, 0);
+        }
+
+        input::placeholder {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 1);
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            margin-right: 0.5rem;
+        }
+
+        button {
+            color: white;
+            background-color: rgba(0, 0, 0, 0);
+            padding: 0.3rem 1.5rem;
+            border: 0.1875rem solid white;
+            border-radius: 20rem;
+        }
+
+        button:hover {
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="marja">
+
+        <div class="kol">
+            <div class="text_asli">
+                <h1>
+                    Webserver Reading Sensor Values
+                </h1>
+                <p>
+                    YL-69 / DHT11 / LM35DZ / BH1750FVI / YF-S201
+                </p>
+            </div>
+            <table>
+                <tr>
+                    <th class="Marja">
+                        Sensors
+                    </th>
+                    <th class="Marja">
+                        Values
+                    </th>
+                </tr>
+                <tr>
+                    <th class="satr">
+                        Temperature
+                    </th>
+                    <td class="satr"
+                        style="display: flex; justify-content: space-around; align-items: center; height: 95%;">
+                        <div>
+                            <span id="temperature">-</span>
+                            <span>&#8451;</span>
+                        </div>
+                        <div>
+                            <div class="input">
+                                <input type="number" placeholder="Temp Ref" value="input" id="inputT">
+                                <button type="button" id="btemperature">Send</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="satr">
+                        Light
+                    </th>
+                    <td class="satr"
+                        style="display: flex; justify-content: space-around; align-items: center; height: 100%; border-top:1px solid rgba(245, 245, 245, 0.5) ;">
+                        <div>
+                            <span id="light">-</span>
+                            <span>%</span>
+                        </div>
+                        <div>
+                            <div class="input">
+                                <input type="number" placeholder="Light Ref" value="input" id="inputL">
+                                <button type="button" id="blight">Send</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="satr">
+                        Soil
+                    </th>
+                    <td class="satr"
+                        style="display: flex; justify-content: space-around; align-items: center; height: 100%; border-top:1px solid rgba(245, 245, 245, 0.5) ;">
+                        <div>
+                            <span id="soil">-</span>
+                            <span>%</span>
+                        </div>
+                        <div>
+                            <div class="input">
+                                <input type="number" placeholder="Soil Ref" value="input" id="inputS">
+                                <button type="button" id="bsoil">Send</button>
+                                <script>
+
+                                </script>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="satr">
+                        Humidity
+                    </th>
+                    <td class="satr"
+                        style="display: flex; justify-content: space-around; align-items: center; height: 100%; border-top:1px solid rgba(245, 245, 245, 0.5) ;">
+                        <div>
+                            <span id="humidity">-</span>
+                            <span>%</span>
+                        </div>
+                        <div>
+                            <div class="input">
+                                <input type="number" placeholder="Humid Ref" value="input" id="inputH">
+                                <button type="button" id="bhumidity">Send</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+</body>
+<script>
+    SCRIPT_ROOT = {{ request.script_root | tojson | safe }};
+
+    $(function f1() {
+        $('#btemperature').bind('click', function () {
+            if (document.getElementById('inputT').value == 0) {
+                alert("You Don't Put a Value")
+             }
+            else {
+                alert("You Change Reference Of Temp");
+                $.getJSON(SCRIPT_ROOT + '/_transfer', {
+                    inputT: $('input[id="inputT"]').val()
+                }, function (data) {
+                    $('#inpuT').text(data.myresult);
+                });
+                return false;
+            }
+
+        });
+    });
+
+    $(function f2() {
+        $('#blight').bind('click', function () {
+            if (document.getElementById('inputL').value == 0) {
+                alert("You Don't Put a Value")
+             }
+            else {
+                alert("You Change Reference Of Light");
+                $.getJSON(SCRIPT_ROOT + '/_transfer', {
+                    inputL: $('input[id="inputL"]').val()
+                }, function (data) {
+                    $('#inpuL').text(data.myresult);
+                });
+                return false;
+            }
+        });
+    });
+
+    $(function f3() {
+        $('#bsoil').bind('click', function () {
+            if (document.getElementById('inputS').value == 0) {
+                alert("You Don't Put a Value")
+             }
+            else {
+                alert("You Change Reference Of Soil");
+                $.getJSON(SCRIPT_ROOT + '/_transfer', {
+                    inputS: $('input[id="inputS"]').val()
+                }, function (data) {
+                    $('#inpuT').text(data.myresult);
+                });
+                return false;
+            }
+        });
+    });
+
+    $(function f4() {
+        $('#bhumidity').bind('click', function () {
+            if (document.getElementById('inputH').value == 0) {
+                alert("You Don't Put a Value")
+             }
+            else {
+                alert("You Change Reference Of Humidity");
+                $.getJSON(SCRIPT_ROOT + '/_transfer', {
+                    inputH: $('input[id="inputH"]').val()
+                }, function (data) {
+                    $('#inpuH').text(data.myresult);
+                });
+                return false;
+            }
+        });
+    });
+
+</script>
+<script type="text/javascript">
+
+    SCRIPT_ROOT = {{ request.script_root | tojson | safe }};
+
+    setInterval(myMethod, 1000)
+    function myMethod() {
+        $.getJSON(SCRIPT_ROOT + '/_referesh', {}, function (data) {
+            var obb = data.myresult;
+            var soil = obb["Soil"];
+            var humidity = obb["Humidity"];
+            var temperature = obb["Temperature"];
+            var light = obb["Light"];
+            $("#soil").text(soil);
+            $("#humidity").text(humidity);
+            $("#temperature").text(temperature);
+            $("#light").text(light);
+        });
+    }
+
+</script>
+
+</html>
